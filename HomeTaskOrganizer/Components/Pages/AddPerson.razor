@@ -1,34 +1,44 @@
 ﻿@page "/addperson"
 @using HomeTaskOrganizer.Models
 @using HomeTaskOrganizer.Repositories
-@inject SQLPersonRepository PersonRepository // Wstrzyknięcie repozytorium
+@using HomeTaskOrganizer.Services
+@inject PersonService personService
 
-<h3>Dodaj nową osobę</h3>
+<h3>Add new person</h3>
 
 <div>
-    <label for="name">Imię:</label>
-    <input type="text" id="name" @bind="newPerson.Name" />
+    <label class="label-styled" for="name">Name:</label>
+    <input class="input-styled" type="text" id="name" @bind="newPerson.Name" />
 </div>
 <div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" @bind="newPerson.Email" />
+    <label class="label-styled" for="email">Email:</label>
+    <input class="input-styled" type="email" id="email" @bind="newPerson.Email" />
 </div>
-<button @onclick="AddNewPerson">Dodaj</button>
+
+    <button class="btn btn-primary" @onclick="AddNewPerson">Add</button>
+
+@if (isPersonAdded)
+{
+    <p>New person added to your database!</p>
+}
+
+
+
 
 @code {
-    private Person newPerson = new Person(); // Nowa osoba
-
+    Person newPerson = new Person();
+    private bool isPersonAdded = false;
     private async Task AddNewPerson()
     {
         try
         {
-            await PersonRepository.AddPersonAsync(newPerson); // Wywołanie metody dodającej osobę
-                                                              // Możesz dodać tu logikę do obsługi po dodaniu osoby
+            await personService.AddPersonAsync(newPerson);
+            isPersonAdded = true;                                         
         }
         catch (Exception ex)
         {
-            // Obsługa ewentualnych błędów podczas dodawania osoby
-            Console.WriteLine($"Wystąpił błąd: {ex.Message}");
+            
+            Console.WriteLine($"Error: {ex.Message}");
         }
     }
 }

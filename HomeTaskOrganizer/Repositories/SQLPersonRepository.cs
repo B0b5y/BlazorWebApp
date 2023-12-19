@@ -6,28 +6,28 @@ namespace HomeTaskOrganizer.Repositories
 {
     public class SQLPersonRepository : IPersonRepository
     {
-        private readonly string _connectionString;
+        private readonly ApplicationDbContext _context;
 
-        public SQLPersonRepository(string connectionString)
+        public SQLPersonRepository(ApplicationDbContext context)
         {
-            _connectionString = connectionString;
+            _context = context;
         }
 
         // Metody GetPeopleAsync, GetPersonByIdAsync, UpdatePersonAsync, DeletePersonAsync również muszą być zaimplementowane
 
         public async Task AddPersonAsync(Person person)
-        {
-            using var connection = new SqlConnection(_connectionString);
-            await connection.OpenAsync();
-
-            var sql = "INSERT INTO People (Name, Email) VALUES (@Name, @Email)";
-            using var command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@Name", person.Name);
-            command.Parameters.AddWithValue("@Email", person.Email);
-
-            await command.ExecuteNonQueryAsync();
-        }
-
+        { try
+            {
+                _context.People.Add(person);
+                await _context.SaveChangesAsync();
+ 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error when adding...");
+                throw;
+            }
+            }
         Task IPersonRepository.DeletePersonAsync(int personId)
         {
             throw new NotImplementedException();
