@@ -1,0 +1,35 @@
+﻿@page "/addperson"
+@using HomeTaskOrganizer.Models
+@using HomeTaskOrganizer.Repositories
+@inject SQLPersonRepository PersonRepository // Wstrzyknięcie repozytorium
+
+<h3>Dodaj nową osobę</h3>
+
+<div>
+    <label for="name">Imię:</label>
+    <input type="text" id="name" @bind="newPerson.Name" />
+</div>
+<div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" @bind="newPerson.Email" />
+</div>
+<button @onclick="AddNewPerson">Dodaj</button>
+
+@code {
+    private Person newPerson = new Person(); // Nowa osoba
+
+    private async Task AddNewPerson()
+    {
+        try
+        {
+            await PersonRepository.AddPersonAsync(newPerson); // Wywołanie metody dodającej osobę
+                                                              // Możesz dodać tu logikę do obsługi po dodaniu osoby
+        }
+        catch (Exception ex)
+        {
+            // Obsługa ewentualnych błędów podczas dodawania osoby
+            Console.WriteLine($"Wystąpił błąd: {ex.Message}");
+        }
+    }
+}
+
