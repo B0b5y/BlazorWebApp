@@ -34,6 +34,12 @@ namespace HomeTaskOrganizer.Services
         {
           await _homeTaskRepository.DeleteTaskAsync(taskId);
         }
+        public async Task UpdateTaskCompletionAsync(int taskId, bool isCompleted)
+        {
+            await _homeTaskRepository.UpdateTaskCompletionAsync(taskId, isCompleted);
+        }
+
+
     }
     
 }

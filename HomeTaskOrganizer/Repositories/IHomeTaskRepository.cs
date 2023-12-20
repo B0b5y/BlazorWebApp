@@ -9,5 +9,6 @@ namespace HomeTaskOrganizer.Repositories
         Task AddTaskAsync(HomeTask task);
         Task UpdateTaskAsync(HomeTask updatedTask);
         Task DeleteTaskAsync(int taskId);
+        Task UpdateTaskCompletionAsync(int taskId, bool isCompleted);
     }
 }

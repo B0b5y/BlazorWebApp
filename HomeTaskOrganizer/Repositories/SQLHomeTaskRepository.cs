@@ -43,5 +43,14 @@ namespace HomeTaskOrganizer.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task UpdateTaskCompletionAsync(int taskId, bool isCompleted)
+        {
+            var taskToUpdate = await _context.HomeTasks.FindAsync(taskId);
+            if (taskToUpdate != null)
+            {
+                taskToUpdate.IsCompleted = isCompleted;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

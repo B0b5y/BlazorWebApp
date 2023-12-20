@@ -14,6 +14,7 @@ namespace HomeTaskOrganizer.Models
         [Required(ErrorMessage = "AssignedTo is required")]
         public string AssignedTo {  get; set; }
         public bool IsCompleted { get; set; }
+        public DateTime? CompletedDate { get; set; }
 
     }
 }
