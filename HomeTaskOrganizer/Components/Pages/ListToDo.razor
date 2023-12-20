@@ -1,54 +1,4 @@
-﻿@* @page "/listtodo"
-@using HomeTaskOrganizer.Models
-@using HomeTaskOrganizer.Services
-@inject HomeTaskService HomeTaskService
-@rendermode InteractiveServer
-
-<h3>Tasks To Do</h3>
-
-@if (hometasks != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Deadline</th>
-                <th>Assigned To</th>
-                <th>Is Completed</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hometask in hometasks)
-            {
-                <tr>
-                    <td>@hometask.HomeTaskId</td>
-                    <td>@hometask.Title</td>
-                    <td>@hometask.Description</td>
-                    <td>@hometask.Deadline.ToShortDateString()</td>
-                    <td>@hometask.AssignedTo</td>
-                    <td>@(hometask.IsCompleted ? "Yes" : "No")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No home tasks found.</p>
-}
-
-@code {
-    IEnumerable<HomeTask> hometasks;
-
-    protected override async Task OnInitializedAsync()
-    {
-        hometasks = await HomeTaskService.GetAllTasksAsync();
-    }
-}
- *@
-@page "/listtodo"
+﻿@page "/listtodo"
 @using HomeTaskOrganizer.Models
 @using HomeTaskOrganizer.Services
 @inject HomeTaskService HomeTaskService
@@ -101,7 +51,31 @@ else
 @if (tasksArchive != null && tasksArchive.Any())
 {
     <table class="table">
-        <!-- Content for Tasks Archive -->
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Assigned To</th>
+                <th>Is Completed</th>
+                <th>Completed Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in tasksArchive)
+            {
+                <tr>
+                    <td>@task.HomeTaskId</td>
+                    <td>@task.Title</td>
+                    <td>@task.Description</td>
+                    <td>@task.Deadline.ToShortDateString()</td>
+                    <td>@task.AssignedTo</td>
+                    <td>@(task.IsCompleted ? "Yes" : "No")</td>
+                    <td>@(task.CompletedDate.HasValue ? task.CompletedDate.Value.ToShortDateString() : "")</td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 else

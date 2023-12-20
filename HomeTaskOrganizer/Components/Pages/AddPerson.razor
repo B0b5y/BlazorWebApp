@@ -4,6 +4,7 @@
 @using HomeTaskOrganizer.Services
 @inject PersonService personService
 @rendermode InteractiveServer
+@inject NavigationManager NavigationManager
 
 <h3>Add new person</h3>
 
@@ -18,23 +19,16 @@
 
     <button class="btn btn-primary" @onclick="AddNewPerson">Add</button>
 
-@if (isPersonAdded)
-{
-    <p>New person added to your database!</p>
-}
-
-
-
-
 @code {
     Person newPerson = new Person();
-    private bool isPersonAdded = false;
+    
     private async Task AddNewPerson()
     {
         try
         {
             await personService.AddPersonAsync(newPerson);
-            isPersonAdded = true;                                         
+            NavigationManager.NavigateTo("/");
+            
         }
         catch (Exception ex)
         {
@@ -42,5 +36,6 @@
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
+    
 }
 

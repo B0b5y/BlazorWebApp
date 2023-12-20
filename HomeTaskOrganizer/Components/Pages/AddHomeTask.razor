@@ -38,7 +38,7 @@
 
 @code {
     private HomeTask newTask = new HomeTask();
-    string selectedAssignedto;
+    private string selectedAssignedto = "";
     IEnumerable<Person> people = new List<Person>();
 
     protected override async Task OnInitializedAsync()
@@ -50,6 +50,7 @@
     {
         try
         {
+            newTask.AssignedTo = selectedAssignedto;
             await homeTaskService.AddTaskAsync(newTask);
             NavigationManager.NavigateTo("/");
         }
