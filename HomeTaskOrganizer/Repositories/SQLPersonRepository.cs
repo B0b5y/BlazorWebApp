@@ -31,11 +31,19 @@ namespace HomeTaskOrganizer.Repositories
 
         public async Task DeletePersonAsync(int personId)
         {
-            var personToDelete = await _context.People.FindAsync(personId);
-            if (personToDelete != null)
+            try
             {
-                _context.People.Remove(personToDelete);
-                await _context.SaveChangesAsync();
+                var personToDelete = await _context.People.FindAsync(personId);
+                if (personToDelete != null)
+                {
+                    _context.People.Remove(personToDelete);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error when deleting person: " + ex.Message);
+                throw;
             }
         }
 
