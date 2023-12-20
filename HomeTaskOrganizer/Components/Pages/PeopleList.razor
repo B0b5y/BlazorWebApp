@@ -1,4 +1,5 @@
 ﻿@page "/peoplelist"
+@using HomeTaskOrganizer.Components
 @using HomeTaskOrganizer.Models
 @using HomeTaskOrganizer.Services
 @inject PersonService PersonService
@@ -22,6 +23,11 @@
                     <td>@person.PersonId</td>
                     <td>@person.Name</td>
                     <td>@person.Email</td>
+                    <td>
+                        <button @onclick="() => DeletePerson(person.PersonId)">
+                            <img src="/images/delete.png" alt="Delete" />
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -37,6 +43,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        people = await PersonService.GetPeopleAsync();
+    }
+    private async Task DeletePerson(int personId)
+    {
+        await PersonService.DeletePersonAsync(personId);
+       
         people = await PersonService.GetPeopleAsync();
     }
 }

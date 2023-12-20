@@ -4,6 +4,7 @@
 @using HomeTaskOrganizer.Services
 @inject HomeTaskService homeTaskService
 @inject NavigationManager NavigationManager
+@inject PersonService personService
 @rendermode InteractiveServer
 
 <h3>Add New Home Task</h3>
@@ -21,8 +22,13 @@
     <input class="input-styled" type="datetime-local" id="deadline" @bind="newTask.Deadline" />
 </div>
 <div>
-    <label class="label-styled" for="assignedTo">Assigned To:</label>
-    <input class="input-styled" type="text" id="assignedTo" @bind="newTask.AssignedTo" />
+    <label class="label-styled" for="assignedto">Assigned To:</label>
+    <select id="assignedto" @bind="selectedAssignedto">
+        @foreach (var person in people)
+        {
+            <option value="@person.Name">@person.Name</option>
+        }
+    </select>
 </div>
 <div>
     <label class="label-styled" for="isCompleted">Completed:</label>
@@ -32,18 +38,25 @@
 
 @code {
     private HomeTask newTask = new HomeTask();
+    string selectedAssignedto;
+    IEnumerable<Person> people = new List<Person>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await personService.GetPeopleAsync();
+    }
 
     private async Task AddNewTask()
     {
         try
         {
             await homeTaskService.AddTaskAsync(newTask);
-            NavigationManager.NavigateTo("/"); // Redirect to home page after adding task
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error when adding task...");
-            // Handle error or display a message to the user
+            
         }
     }
 }
