@@ -1,0 +1,42 @@
+﻿@page "/peoplelist"
+@using HomeTaskOrganizer.Models
+@using HomeTaskOrganizer.Services
+@inject PersonService PersonService
+
+<h3>People List</h3>
+
+@if (people != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in people)
+            {
+                <tr>
+                    <td>@person.PersonId</td>
+                    <td>@person.Name</td>
+                    <td>@person.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No people found.</p>
+}
+
+@code {
+    IEnumerable<Person> people;
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await PersonService.GetPeopleAsync();
+    }
+}
