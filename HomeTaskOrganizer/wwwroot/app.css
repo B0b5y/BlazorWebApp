@@ -66,3 +66,7 @@ h1:focus {
     box-sizing: border-box; 
     margin-bottom: 10px;
 }
+.artwork-image {
+    width: 50%;
+    height: 50%;
+}
