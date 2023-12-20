@@ -35,6 +35,7 @@
                         {
                             <button class="btn btn-primary" @onclick="() => CompleteTask(task)">Complete</button>
                         }
+
                     </td>
                 </tr>
             }
@@ -100,7 +101,9 @@ else
         task.CompletedDate = DateTime.UtcNow;
 
         await HomeTaskService.UpdateTaskAsync(task);
+
         tasksToDo = tasksToDo.Where(t => t.HomeTaskId != task.HomeTaskId).ToList();
-        tasksArchive = tasksArchive.Append(task);
+        // tasksArchive = tasksArchive.Append(task).ToList(); 
     }
+
 }
