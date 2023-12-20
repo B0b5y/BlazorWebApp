@@ -1,6 +1,8 @@
 ﻿using HomeTaskOrganizer.Models;
-using System.Data.SqlClient;
-
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HomeTaskOrganizer.Repositories
 {
@@ -13,39 +15,44 @@ namespace HomeTaskOrganizer.Repositories
             _context = context;
         }
 
-        // Metody GetPeopleAsync, GetPersonByIdAsync, UpdatePersonAsync, DeletePersonAsync również muszą być zaimplementowane
-
         public async Task AddPersonAsync(Person person)
-        { try
+        {
+            try
             {
                 _context.People.Add(person);
                 await _context.SaveChangesAsync();
- 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error when adding...");
                 throw;
             }
+        }
+
+        public async Task DeletePersonAsync(int personId)
+        {
+            var personToDelete = await _context.People.FindAsync(personId);
+            if (personToDelete != null)
+            {
+                _context.People.Remove(personToDelete);
+                await _context.SaveChangesAsync();
             }
-        Task IPersonRepository.DeletePersonAsync(int personId)
-        {
-            throw new NotImplementedException();
         }
 
-        Task<IEnumerable<Person>> IPersonRepository.GetPeopleAsync()
+        public async Task<IEnumerable<Person>> GetPeopleAsync()
         {
-            throw new NotImplementedException();
+            return await _context.People.ToListAsync();
         }
 
-        Task<Person> IPersonRepository.GetPersonByIdAsync(int personId)
+        public async Task<Person> GetPersonByIdAsync(int personId)
         {
-            throw new NotImplementedException();
+            return await _context.People.FindAsync(personId);
         }
 
-        Task IPersonRepository.UpdatePersonAsync(Person updatedPerson)
+        public async Task UpdatePersonAsync(Person updatedPerson)
         {
-            throw new NotImplementedException();
+            _context.Entry(updatedPerson).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
