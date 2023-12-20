@@ -2,11 +2,11 @@
 {
     public class HomeTask
     {
-        public int  TaskId { get; set; }
+        public int  HomeTaskId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
-        public string AsignetTo {  get; set; }
+        public string AssignetTo {  get; set; }
         public bool IsCompleted { get; set; }
 
     }
