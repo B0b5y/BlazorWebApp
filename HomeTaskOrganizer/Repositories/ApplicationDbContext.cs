@@ -10,5 +10,6 @@ namespace HomeTaskOrganizer.Repositories
 
         }
         public DbSet<Person> People { get; set; }
+        public DbSet<HomeTask> HomeTasks { get; set; }
     }
 }

@@ -9,6 +9,5 @@
         private string AsingetTo {  get; set; }
         private bool IsCompleted { get; set; }
 
-
     }
 }

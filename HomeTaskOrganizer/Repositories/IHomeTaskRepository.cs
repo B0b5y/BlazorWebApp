@@ -1,6 +1,13 @@
-﻿namespace HomeTaskOrganizer.Repositories
+﻿using HomeTaskOrganizer.Models;
+
+namespace HomeTaskOrganizer.Repositories
 {
-    public class IHomeTaskRepository
+    public interface IHomeTaskRepository
     {
+        Task<IEnumerable<HomeTask>> GetAllTasksAsync();
+        Task<HomeTask> GetTaskByIdAsync(int taskId);
+        Task AddTaskAsync(HomeTask task);
+        Task UpdateTaskAsync(HomeTask updatedTask);
+        Task DeleteTaskAsync(int taskId);
     }
 }
